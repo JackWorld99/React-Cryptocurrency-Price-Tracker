@@ -33,7 +33,7 @@ The `pages/api` directory is mapped to `/api/*`. Files in this directory are tre
 
 ### Deploy on Vercel
 
-- ### 👉 [Live Demo](https://cryptocurrency-price-tracker-nextjs.vercel.app/ "Show index.html")
+- ### 👉 [Live Demo](https://cryptocurrency-price-tracker-nextjs.vercel.app/ "Show demo site")
 
 ---
 
