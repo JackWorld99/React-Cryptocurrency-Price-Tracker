@@ -5,12 +5,14 @@ import styles from "./Coin.module.css";
 const Coin = ({ coin }) => {
   const [price, setPrice] = useState(coin.market_data.current_price.usd)
   const ws = useRef(null);
-  const t = coin.symbol.toUpperCase() + "-USD"
+  const product_id = coin.symbol.toUpperCase() + "-USD";
+  const colors = useRef(null);
+
   useEffect(() => {
     ws.current = new WebSocket(process.env.NEXT_PUBLIC_COINBASE_WS_API);
     let msg = {
       type: "subscribe",
-      product_ids: [t],
+      product_ids: [product_id],
       channels: ["ticker"]
     };
     let jsonMsg = JSON.stringify(msg);
@@ -22,9 +24,9 @@ const Coin = ({ coin }) => {
     })
 
     ws.current.onmessage = (e) => {
-      let data = JSON.parse(e.data);
+      let data = JSON.parse(e.data) 
+      colors.current.style.color = (!data.price || price === data.price) ? "white" : data.price > price ? "green" : "red"
       setPrice(data.price)
-      // console.log(data.price);
     }
   }, [])
 
@@ -35,7 +37,7 @@ const Coin = ({ coin }) => {
           <img  src={coin.image.large} al={coin.name} className={styles.coin_image} />
           <h1 className={styles.coin_name}>{coin.name}</h1>
           <p className={styles.coin_ticker}>{coin.symbol.toUpperCase()}</p>
-          <p className={styles.coin_current}>
+          <p className={styles.coin_current} ref={colors}>
              {price ?  "$ " + price : "$ " + coin.market_data.current_price.usd}
           </p>
           <div style={{fontSize: '12px'}}>
@@ -43,8 +45,6 @@ const Coin = ({ coin }) => {
           </div>
         </div> 
       </div>
-      
-     
     </Layout>
   )
 }
