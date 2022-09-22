@@ -18,7 +18,7 @@ const Layout = ({ children, title = "Crypto Tracker" }) => {
       </header>
       <main>{children}</main>
     </div>
-  );
-};
+  )
+}
 
 export default Layout;

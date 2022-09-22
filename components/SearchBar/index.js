@@ -5,7 +5,7 @@ const SearchBar = ({ ...rest }) => {
     <div className={styles.coin_search}>
       <input className={styles.coin_input} {...rest} />
     </div>
-  );
-};
+  )
+}
 
 export default SearchBar;

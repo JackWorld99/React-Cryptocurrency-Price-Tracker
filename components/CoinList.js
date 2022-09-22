@@ -3,8 +3,7 @@ import Coins from "./Coins";
 export default function CoinList({ filteredCoins }) {
   return (
     <>
-      {filteredCoins.map((coin) => {
-        return (
+      {filteredCoins.map((coin) => (
           <Coins
             key={coin.id}
             name={coin.name}
@@ -16,8 +15,8 @@ export default function CoinList({ filteredCoins }) {
             image={coin.image}
             priceChange={coin.price_change_percentage_24h}
           />
-        );
-      })}
+        )
+      )}
     </>
   );
 }
