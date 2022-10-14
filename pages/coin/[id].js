@@ -1,33 +1,41 @@
-import { useEffect, useRef, useState } from "react";
-import Layout from "../../components/Layout";
-import styles from "./Coin.module.css";
+import { useEffect, useRef, useState } from "react" 
+import Layout from "../../components/Layout" 
+import styles from "./Coin.module.css" 
 
 const Coin = ({ coin }) => {
   const [price, setPrice] = useState(coin.market_data.current_price.usd)
-  const ws = useRef(null);
-  const product_id = coin.symbol.toUpperCase() + "-USD";
-  const colors = useRef(null);
+  const ws = useRef(null) 
+  const product_id = coin.symbol.toUpperCase() + "-USD" 
+  const colors = useRef(null) 
 
   useEffect(() => {
-    ws.current = new WebSocket(process.env.NEXT_PUBLIC_COINBASE_WS_API);
+    let isMounted = true
+
+    ws.current = new WebSocket(process.env.NEXT_PUBLIC_COINBASE_WS_API) 
+
     let msg = {
       type: "subscribe",
       product_ids: [product_id],
       channels: ["ticker"]
-    };
-    let jsonMsg = JSON.stringify(msg);
-    
+    }
+
+    let jsonMsg = JSON.stringify(msg) 
+
     ws.current.addEventListener('open', () => {
       if(ws.current.readyState === 1){
-        ws.current.send(jsonMsg);
+        ws.current.send(jsonMsg) 
       }
     })
 
     ws.current.onmessage = (e) => {
       let data = JSON.parse(e.data) 
-      colors.current.style.color = (!data.price || price === data.price) ? "white" : data.price > price ? "green" : "red"
-      setPrice(data.price)
+      console.log(data.price)
+      if(isMounted){
+        colors.current.style.color = (!data.price || price === data.price) ? "white" : data.price > price ? "green" : "red"
+        setPrice(data.price)
+      }
     }
+    return () => isMounted = false
   }, [])
 
   return (
@@ -49,12 +57,12 @@ const Coin = ({ coin }) => {
   )
 }
 
-export default Coin;
+export default Coin 
 
 export async function getServerSideProps(context) {
-  const { id } = context.query;
-  const res = await fetch(`https://api.coingecko.com/api/v3/coins/${id}`);
-  const data = await res.json();
+  const { id } = context.query 
+  const res = await fetch(`https://api.coingecko.com/api/v3/coins/${id}`) 
+  const data = await res.json() 
 
   return {
     props: {
