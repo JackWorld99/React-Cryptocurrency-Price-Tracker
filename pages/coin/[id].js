@@ -29,7 +29,6 @@ const Coin = ({ coin }) => {
 
     ws.current.onmessage = (e) => {
       let data = JSON.parse(e.data) 
-      console.log(data.price)
       if(isMounted){
         colors.current.style.color = (!data.price || price === data.price) ? "white" : data.price > price ? "green" : "red"
         setPrice(data.price)
