@@ -28,8 +28,8 @@ const Coin = ({ coin }) => {
     })
 
     ws.current.onmessage = (e) => {
-      let data = JSON.parse(e.data) 
       if(isMounted){
+        let data = JSON.parse(e.data) 
         colors.current.style.color = (!data.price || price === data.price) ? "white" : data.price > price ? "green" : "red"
         setPrice(data.price)
       }
