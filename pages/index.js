@@ -8,11 +8,6 @@ export default function Home({coinsData}) {
   const [search, setSearch] = useState("") 
   const [data, setData] = useState(coinsData) 
 
-  const handleChange = (e) => {
-    e.preventDefault() 
-    setSearch(e.target.value) 
-  }
-
   useEffect(() => {
     let isMounted = true
     const fetchData = async() => {
@@ -37,9 +32,9 @@ export default function Home({coinsData}) {
     <div>
       <Layout>
         <div className="coin_app">
-          <SearchBar type="text" placeholder="Search" onChange={handleChange} />
+          <SearchBar type="text" placeholder="Search" onChange={(e) => setSearch(e.target.value)} />
           <Header />
-          <CoinList filteredCoins={data.filter((coin) => coin.name.toLowerCase().includes(search.toLowerCase()))} />
+          <CoinList filteredCoins={data.filter((coin) => coin.symbol.toLowerCase().includes(search.toLowerCase()))} />
         </div>
       </Layout>
     </div>
